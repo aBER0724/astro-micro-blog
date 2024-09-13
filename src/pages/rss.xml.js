@@ -4,13 +4,12 @@ import { getCollection } from "astro:content";
 
 export async function GET(context) {
   const blog = (await getCollection("blog")).filter((post) => !post.data.draft);
-
   const projects = (await getCollection("projects")).filter(
-    (project) => !project.data.draft,
+    (project) => !project.data.draft
   );
 
   const items = [...blog, ...projects].sort(
-    (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
+    (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
   );
 
   return rss({
@@ -22,6 +21,7 @@ export async function GET(context) {
       description: item.data.description,
       pubDate: item.data.date,
       link: `/${item.collection}/${item.slug}/`,
+      content: item.body || item.content, // Add this line to include the full content
     })),
   });
 }
