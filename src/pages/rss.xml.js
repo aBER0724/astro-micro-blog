@@ -21,7 +21,7 @@ export async function GET(context) {
       description: item.data.description,
       pubDate: item.data.date,
       link: `/${item.collection}/${item.slug}/`,
-      content: item.render().then(async result => await result.Content())
+      content: item.body
     })),
   });
 }
