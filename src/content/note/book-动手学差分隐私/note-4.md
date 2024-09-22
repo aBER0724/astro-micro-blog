@@ -46,6 +46,7 @@ date: 2024-09-23
 
 - 拉普拉斯机制 (Laplace Mechanism)
   > 最典型的基础机制.  
+  
   $$F(x) = f(x) + Lap(\frac{s}{\epsilon})$$   
   - $Lap(S)$ 是以均值为 0, 缩放系数为 $S$ 的拉普拉斯分布采样.  
   - $s$ 是 $f$ 的敏感度 (Sensitivity).  

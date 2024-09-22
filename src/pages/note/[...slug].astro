@@ -22,7 +22,7 @@ type Props = CollectionEntry<"note">;
 
 const notes = (await getCollection("note"))
   .filter((note) => !note.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 
 function getNotesInSameFolder(slug: string) {
   const folder = slug.split("/")[0];

@@ -7,7 +7,7 @@ import { NOTE } from "@consts";
 
 const data = (await getCollection("note"))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 
 type Acc = {
   [folder: string]: CollectionEntry<"note">[];
