@@ -5,6 +5,7 @@ export const SITE: Site = {
   DESCRIPTION: "Here is aBER's Blog. Sharing my knowledge and experiences.",
   EMAIL: "ab3r77724@gmail.com",
   NUM_POSTS_ON_HOMEPAGE: 5,
+  NUM_NOTES_ON_HOMEPAGE: 3,
   NUM_PROJECTS_ON_HOMEPAGE: 3,
 };
 
