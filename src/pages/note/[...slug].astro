@@ -1,0 +1,91 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { readingTime } from "@lib/utils";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import NoteNavigation from "@components/NoteNavigation.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import Giscus from "@components/Giscus.astro";
+
+export async function getStaticPaths() {
+  const notes = (await getCollection("note"))
+    .filter((note) => !note.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: note,
+  }));
+}
+type Props = CollectionEntry<"note">;
+
+const notes = (await getCollection("note"))
+  .filter((note) => !note.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function getNotesInSameFolder(slug: string) {
+  const folder = slug.split("/")[0];
+  return notes.filter(note => note.slug.startsWith(folder));
+}
+
+function getNextNote(slug: string) {
+  const folderNotes = getNotesInSameFolder(slug);
+  let noteIndex;
+  for (const note of folderNotes) {
+    if (note.slug === slug) {
+      noteIndex = folderNotes.indexOf(note);
+      return folderNotes[noteIndex + 1];
+    }
+  }
+}
+
+function getPrevNote(slug: string) {
+  const folderNotes = getNotesInSameFolder(slug);
+  let noteIndex;
+  for (const note of folderNotes) {
+    if (note.slug === slug) {
+      noteIndex = folderNotes.indexOf(note);
+      return folderNotes[noteIndex - 1];
+    }
+  }
+}
+
+const nextNote = getNextNote(Astro.params.slug);
+const prevNote = getPrevNote(Astro.params.slug);
+
+const note = Astro.props;
+const { Content, headings } = await note.render();
+---
+
+<Layout title={note.data.title} description={note.data.description}>
+  <Container>
+    <div class="animate">
+      <BackToPrevious href="/note">Back to note</BackToPrevious>
+    </div>
+    <div class="my-10 space-y-1">
+      <div class="animate flex items-center gap-1.5">
+        <div class="font-base text-sm">
+          <FormattedDate date={note.data.date} />
+        </div>
+        &bull;
+        <div class="font-base text-sm">
+          {readingTime(note.body)}
+        </div>
+      </div>
+      <h1 class="animate text-3xl font-semibold text-black dark:text-white">
+        {note.data.title}
+      </h1>
+    </div>
+    {headings.length > 0 && <TableOfContents headings={headings} />}
+    <article class="animate">
+      <Content />
+      <div class="mt-24">
+        <NoteNavigation prevNote={prevNote} nextNote={nextNote} />
+      </div>
+      <div class="mt-24">
+        <Giscus />
+      </div>
+    </article>
+  </Container>
+</Layout>
