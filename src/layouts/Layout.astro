@@ -17,24 +17,7 @@ const { title, description } = Astro.props;
 <html lang="en">
   <head>
     <Head title={`${title} | ${SITE.TITLE}`} description={description} />
-    <script
-      type="text/javascript"
-      id="MathJax-script"
-      defer
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
-    <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function() {
-        window.MathJax = {
-          tex: {
-            inlineMath: [
-              ["$", "$"],
-              ["\\(", "\\)"],
-            ],
-          },
-        };
-      });
-    </script>
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.15.1/dist/katex.css" integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM" crossorigin="anonymous">
   </head>
   <body>
     <Header />
