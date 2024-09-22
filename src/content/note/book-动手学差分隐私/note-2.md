@@ -7,12 +7,12 @@ date: 2024-09-21
    > 从数据集中**删除标识信息**.
 
 - 标识信息 / 个人标识信息 (Personally Identifiable Information, PII)
-   > 可以用于唯一标识的信息.
-	姓名, 地址, 电话号码, 电子邮箱, ...
+   > 可以用于唯一标识的信息. <br>
+   > 姓名, 地址, 电话号码, 电子邮箱, ...
 
-- 如何去除 PII ?
-	删除即可.
-	会将一部分 PII 保留下来作为 辅助数据 (Auxiliary Data).
+- 如何去除 PII ?  
+	删除即可.  
+	会将一部分 PII 保留下来作为 辅助数据 (Auxiliary Data).  
 	这些保留的标识信息可以被用于 重标识 (Re-identification) 攻击.
 
 ## 2.1 关联攻击 Linkage Attack
@@ -23,7 +23,7 @@ date: 2024-09-21
 
 所以通过对比两个库中具有标识性的属性, 就可以将信息与人进行匹配, 进而获得信息.
 
-- 重标识的难度很低	
+- 重标识的难度很低  
 	通过一个辅助数据就可以筛掉很多人, 用邮编就可以确定到一个地区, 再使用生日就能更大的缩小范围. 在书中示例数据集中, 邮编和生日的数据出现次数都很少, 几乎每个邮编和生日都仅出现 1 次, 使用邮编和生日进行重标识攻击, **可以重标识出所有的个体**.
 
 ## 2.2 聚合 Aggregate
@@ -45,8 +45,6 @@ adult['Age'].mean()
 通过多次查询获得值, 来计算平均值获得更准确的真实平均值. 随机数有正有负, 长期来看会相互抵消, 所以这个平均值会越来越接近真实的平均值.
 
 ```python
-import micropip 
-await micropip.install('numpy')
 import numpy as np
 
 # 差分隐私机制(查询返回值添加随机噪声)
@@ -75,8 +73,6 @@ print(f"通过差分攻击估计的平均值: {estimated_mean}")
 通过查询所有记录总和和查询除目标外的所有记录综合, 两者的差值即为目标的隐私数据.
 
 ```python
-import micropip 
-await micropip.install('pandas')
 import pandas as pd
 
 # 数据集
