@@ -33,7 +33,7 @@ F(x) = f(x) + \mathcal{N}(\sigma^2) \\
 $$
 
 $s$ 为 $f$ 的敏感度.  
-$\mathcal{N}(\sigma^2)$ 表示均值为 0, 方差为 $\sigma^2} 的高斯(正态)分布的采样结果.  
+$\mathcal{N}(\sigma^2)$ 表示均值为 0, 方差为 $\sigma^2$ 的高斯(正态)分布的采样结果.  
 
 高斯机制与拉普拉斯机制的对比
 ![高斯机制与拉普拉斯机制的对比](https://gcore.jsdelivr.net/gh/aBER0724/ob_picture/Img/202409251425595.png)
