@@ -25,7 +25,7 @@ date: 2024-10-07
 2. **瑞丽散度** Rényi Divergence  
     概率分布 $P$ 和 $Q$ 的 $\alpha$ 阶瑞丽散度定义为:  
     $$
-    D_{\alpha}(P \parallel Q) = \frac{1}{\alpha - 1} log E_{x ~ Q} \Bigl( \frac{P(x)}{Q(x)} \Bigr)^{\alpha}
+    D_{\alpha}(P \parallel Q) = \frac{1}{\alpha - 1} log E_{x \sim Q} \Bigl( \frac{P(x)}{Q(x)} \Bigr)^{\alpha}
     $$
     > $P(x)$ 和 $Q(x)$ 分别为 $P$ 和 $Q$ 在 $x$ 处的概率密度.  
 
