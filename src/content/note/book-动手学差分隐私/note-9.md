@@ -42,8 +42,8 @@ $$
 如果机制 $F$ 满足 ($\alpha$, $\bar \epsilon$)-RDP, 那对于任意给定的 $\delta > 0$, $F$ 满足 ($\epsilon$,$\delta$)-差分隐私.  
 其中 $\epsilon = \bar \epsilon + \frac{log(\frac{1}{\delta})}{\alpha - 1}$, $\delta$ 应选择一个有意义的值, 如 $\delta \leq \frac{1}{n^2}$.  
 
-实现瑞丽差分隐私的基本机制是[高斯机制](note/book-动手学差分隐私/note-7.md#72-高斯机制).  
-对于一个 [$L2$ 敏感度](note/book-动手学差分隐私/note-7.md#732-l1-和-l2-敏感度)为 $\Delta f$ 的函数 $f$: $\mathcal{D} \rightarrow \mathbb{R}^k$. 
+实现瑞丽差分隐私的基本机制是[高斯机制](/note/book-动手学差分隐私/note-7.md#72-高斯机制).  
+对于一个 [$L2$ 敏感度](/note/book-动手学差分隐私/note-7.md#732-l1-和-l2-敏感度)为 $\Delta f$ 的函数 $f$: $\mathcal{D} \rightarrow \mathbb{R}^k$. 
 构造 ($\alpha$, $\bar \epsilon$)-瑞丽差分隐私机制:  
 $$
 F(x) = f(x) + \mathcal{N}(\sigma^2) \ where \  \sigma^2 = \frac{\Delta f^2 \alpha}{2 \bar \epsilon}

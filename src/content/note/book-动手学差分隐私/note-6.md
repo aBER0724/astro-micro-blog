@@ -10,7 +10,7 @@ $f(x)$ 是确定性的问询函数, $s$ 是 $f$ 的敏感度.
 给定一个映射函数 $f: \mathcal{D} \rightarrow \mathbb{R}$. 将数据集 $\mathcal{D}$映射为实数 $\mathbb{R}$.  
 $f$ 的全局敏感度 (Global Sensitivity) 为:  
 $$
-GS(f) = \underset{x,x':d(x,x')<=1}{max} |f(x) - f(x')|
+GS(f) = \underset{x,x':d(x,x') \leq 1}{max} |f(x) - f(x')|
 $$
   > $d(x,x')$ 表示两个数据集 $x$ 和 $x'$ 的距离 (Distance).  
   > 若距离 $\leq 1$, 说明两个数据集是临近集 (Neighbor).  
