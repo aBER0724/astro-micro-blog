@@ -30,7 +30,7 @@ date: 2024-09-23
 
   $F$ 要达到的效果是: 输入 $x$ 和 $x'$ 到 $F$, 攻击者无法分辨 $F$ 给出的输出是属于 $x$, 还是属于 $x'$.
 
-- 隐私参数 (Privacy Parameter) / 隐私预算 ()Privacy Budget) $\epsilon$
+- 隐私参数 (Privacy Parameter) / 隐私预算 (Privacy Budget) $\epsilon$
   - $\epsilon$ 越小, $F$ 给出的输出越相似, 也就能提供更好的隐私性.
   - $\epsilon$ 取值共识:
     - $\epsilon \approx 1 \ || \ \epsilon < 1$
