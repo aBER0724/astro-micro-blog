@@ -6,4 +6,4 @@ demoURL: ""
 repoURL: ""
 ---
 
-My graduation project is deal with the problem about **User-Level Differential Privacy with Frederated Learning**.  
+My graduation project is deal with the problem about **User-Level Differential Privacy with Federated Learning**.  
