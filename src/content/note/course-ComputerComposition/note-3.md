@@ -3,8 +3,6 @@ title: "Computer Composition Review Ch3 存储系统"
 date: 2024-06-16
 ---
 
-# 第三章_存储系统
-
 ## 3.1 存储系统概述
 ### 3.1.1 存储系统的层次结构
 - 程序的局部性原理

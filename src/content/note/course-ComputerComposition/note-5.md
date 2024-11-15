@@ -3,7 +3,6 @@ title: "Computer Composition Review Ch5  中央处理器"
 date: 2024-06-19
 ---
 
-# 第五章_中央处理器
 ## 5.1 CPU 的功能和组成
 ### 5.1.1 CPU 的功能
 - 指令控制

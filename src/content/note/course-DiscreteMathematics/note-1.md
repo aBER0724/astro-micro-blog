@@ -3,7 +3,6 @@ title: "Discrete Mathematics Review"
 date: 2024-06-25
 ---
 
-# 离散数学
 ## 第一章 命题逻辑
 ### 1.1 命题符号化
 - 命题

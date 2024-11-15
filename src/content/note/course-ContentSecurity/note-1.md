@@ -3,7 +3,6 @@ title: "Content Security Review"
 date: 2024-06-25
 ---
 
-# 信息内容安全
 ## 第一章 概论
 - 定义
 	- 内容的获取、识别和管控/分析

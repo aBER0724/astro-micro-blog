@@ -3,8 +3,6 @@ title: "Computer Composition Review Ch1 概论"
 date: 2024-06-14
 ---
 
-# 第一章_概论
-
 ## 1.1 计算机分类
 - 总体分类
 	- 电子模拟计算机

@@ -3,7 +3,6 @@ title: "Computer Composition Review Ch7 外围设备"
 date: 2024-06-21
 ---
 
-# 第七章_外围设备
 ## 7.1 外围设备概述
 ### 7.1.1 外围设备的一般功能
 - 组成
