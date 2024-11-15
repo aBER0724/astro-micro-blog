@@ -118,3 +118,31 @@ pre {
 .copy-code:active {
   @apply scale-90 transition-transform;
 }
+
+details summary {
+  user-select: none;
+}
+
+details summary:hover {
+  opacity: 0.8;
+}
+
+details[open] summary ~ * {
+  animation: sweep .3s ease-in-out;
+}
+
+@keyframes sweep {
+  0%    {opacity: 0; transform: translateY(-10px)}
+  100%  {opacity: 1; transform: translateY(0)}
+}
+
+.icon-adaptive {
+  filter: brightness(0.55) saturate(0.8);
+}
+
+/* 在深色主题下 */
+@media (prefers-color-scheme: dark) {
+  .icon-adaptive {
+    filter: brightness(0.8) saturate(0.7);
+  }
+}

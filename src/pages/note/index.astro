@@ -1,55 +1,152 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import { NOTE } from "@consts";
+import FormattedDate from "@components/FormattedDate.astro";
 
-const data = (await getCollection("note"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+// 获取所有非草稿笔记并按日期排序
+const notes = (await getCollection("note"))
+  .filter((note) => !note.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-type Acc = {
-  [folder: string]: CollectionEntry<"note">[];
-};
-
-const posts = data.reduce((acc: Acc, post) => {
-  const folder = post.id.split("/")[0];
+// 按文件夹分组笔记
+const groupedNotes = notes.reduce((acc, note) => {
+  const folder = note.slug.split("/")[0];
   if (!acc[folder]) {
     acc[folder] = [];
   }
-  acc[folder].push(post);
+  acc[folder].push(note);
   return acc;
-}, {});
-
-const folders = Object.keys(posts).sort();
+}, {} as Record<string, typeof notes>);
 ---
 
-<Layout title={NOTE.TITLE} description={NOTE.DESCRIPTION}>
+<Layout title="Note" description="My notes">
   <Container>
-    <aside data-pagefind-ignore>
-      <div class="space-y-10">
-        <div class="space-y-4">
-          {
-            folders.map((folder) => (
-              <section class="animate space-y-4">
-                <div class="font-semibold text-black dark:text-white">
-                  {folder}
-                </div>
-                <div>
-                  <ul class="not-prose flex flex-col gap-4">
-                    {posts[folder].map((post) => (
-                      <li>
-                        <ArrowCard entry={post} />
-                      </li>
+    <div class="space-y-6">
+      <div class="animate font-semibold text-black dark:text-white">Note</div>
+      <div class="space-y-8">
+        {
+          Object.entries(groupedNotes).map(([folder, folderNotes]) => (
+            <div class="rounded-lg border border-black/10 p-3 dark:border-white/10">
+              <details class="group" open>
+                <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5">
+                  <span class="font-medium text-lg text-black dark:text-white">{folder}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="size-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </summary>
+                <div class="details-content">
+                  <div class="mt-4 space-y-4 px-3">
+                    {folderNotes.map((note) => (
+                      <a
+                        href={`/note/${note.slug}`}
+                        class="block rounded-lg border border-black/10 p-4 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/5"
+                      >
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                          <FormattedDate date={note.data.date} />
+                        </div>
+                        <div class="font-medium">{note.data.title}</div>
+                      </a>
                     ))}
-                  </ul>
+                  </div>
                 </div>
-              </section>
-            ))
-          }
-        </div>
+              </details>
+            </div>
+          ))
+        }
       </div>
-    </aside>
+    </div>
   </Container>
 </Layout>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .details-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  details[open] .details-content {
+    max-height: 100vh;
+  }
+
+  summary svg {
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  details[open] summary svg {
+    transform: rotate(90deg);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const details = document.querySelectorAll('details');
+    
+    details.forEach(detail => {
+      if (detail.open) {
+        const content = detail.querySelector('.details-content') as HTMLElement;
+        if (content) {
+          requestAnimationFrame(() => {
+            content.style.maxHeight = `${content.scrollHeight}px`;
+          });
+        }
+      }
+
+      detail.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest('summary')) return;
+        
+        e.preventDefault();
+        
+        const content = detail.querySelector('.details-content') as HTMLElement;
+        if (!content) return;
+
+        if (!detail.open) {
+          detail.open = true;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              content.style.maxHeight = `${content.scrollHeight}px`;
+            });
+          });
+        } else {
+          content.style.maxHeight = `${content.scrollHeight}px`;
+          requestAnimationFrame(() => {
+            content.style.maxHeight = '0px';
+          });
+          
+          content.addEventListener('transitionend', () => {
+            if (content.style.maxHeight === '0px') {
+              detail.open = false;
+            }
+          }, { once: true });
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      details.forEach(detail => {
+        if (detail.open) {
+          const content = detail.querySelector('.details-content') as HTMLElement;
+          if (content) {
+            content.style.maxHeight = `${content.scrollHeight}px`;
+          }
+        }
+      });
+    });
+  });
+</script>
