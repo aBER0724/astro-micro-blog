@@ -9,7 +9,8 @@ Shell 是命令行解释器，用于调用系统内核来执行用户输入的�
 ## Shell 的种类
 sh / csh / ksh / bash / zsh / fish / powershell
 > 不同 Shell 之间会有细微差异，大部分命令是相通的。
-#### 如何查看系统中的 Shell？
+
+### 如何查看系统中的 Shell？
 1. 查看系统中存在的 Shell
 	```shell
 	cat /etc/shells
