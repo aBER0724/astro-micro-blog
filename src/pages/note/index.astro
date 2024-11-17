@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
+import { getCategoryDisplayName } from "@config/noteCategories";
 
 // 获取所有非草稿笔记并按日期排序
 const notes = (await getCollection("note"))
@@ -30,7 +31,9 @@ const groupedNotes = notes.reduce((acc, note) => {
             <div class="rounded-lg border border-black/10 p-3 dark:border-white/10">
               <details class="group" open>
                 <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 transition-colors duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5">
-                  <span class="font-medium text-lg text-black dark:text-white">{folder}</span>
+                  <span class="font-medium text-lg text-black dark:text-white">
+                    {getCategoryDisplayName(folder)}
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="size-5 transition-transform duration-300 ease-in-out group-open:rotate-90"
@@ -94,59 +97,65 @@ const groupedNotes = notes.reduce((acc, note) => {
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const details = document.querySelectorAll('details');
+  function initializeDetails(detail: HTMLDetailsElement) {
+    const content = detail.querySelector('.details-content') as HTMLElement;
+    if (!content) return;
     
-    details.forEach(detail => {
+    // 如果details是打开的，立即设置正确的maxHeight
+    if (detail.open) {
+      // 使用 requestAnimationFrame 确保DOM已经完全渲染
+      requestAnimationFrame(() => {
+        content.style.maxHeight = `${content.scrollHeight}px`;
+      });
+    }
+
+    detail.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('summary')) return;
+      
+      e.preventDefault();
+      
+      if (!detail.open) {
+        detail.open = true;
+        requestAnimationFrame(() => {
+          content.style.maxHeight = `${content.scrollHeight}px`;
+        });
+      } else {
+        content.style.maxHeight = `${content.scrollHeight}px`;
+        requestAnimationFrame(() => {
+          content.style.maxHeight = '0px';
+        });
+        
+        content.addEventListener('transitionend', () => {
+          if (content.style.maxHeight === '0px') {
+            detail.open = false;
+          }
+        }, { once: true });
+      }
+    });
+  }
+
+  // 使用 requestIdleCallback 在浏览器空闲时初始化
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      document.querySelectorAll('details').forEach(initializeDetails);
+    });
+  } else {
+    // 降级处理
+    setTimeout(() => {
+      document.querySelectorAll('details').forEach(initializeDetails);
+    }, 0);
+  }
+
+  // 处理窗口大小改变
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('details').forEach(detail => {
       if (detail.open) {
         const content = detail.querySelector('.details-content') as HTMLElement;
         if (content) {
-          requestAnimationFrame(() => {
-            content.style.maxHeight = `${content.scrollHeight}px`;
-          });
+          content.style.maxHeight = `${content.scrollHeight}px`;
         }
       }
-
-      detail.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        if (!target.closest('summary')) return;
-        
-        e.preventDefault();
-        
-        const content = detail.querySelector('.details-content') as HTMLElement;
-        if (!content) return;
-
-        if (!detail.open) {
-          detail.open = true;
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              content.style.maxHeight = `${content.scrollHeight}px`;
-            });
-          });
-        } else {
-          content.style.maxHeight = `${content.scrollHeight}px`;
-          requestAnimationFrame(() => {
-            content.style.maxHeight = '0px';
-          });
-          
-          content.addEventListener('transitionend', () => {
-            if (content.style.maxHeight === '0px') {
-              detail.open = false;
-            }
-          }, { once: true });
-        }
-      });
-    });
-
-    window.addEventListener('resize', () => {
-      details.forEach(detail => {
-        if (detail.open) {
-          const content = detail.querySelector('.details-content') as HTMLElement;
-          if (content) {
-            content.style.maxHeight = `${content.scrollHeight}px`;
-          }
-        }
-      });
     });
   });
 </script>
