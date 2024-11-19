@@ -183,9 +183,9 @@ $w^{opt}_{s,u} := \frac{n_{s,u}}{\sum_{s \in |S|} n_{s,u}}$
 2. 权重广播, 会对所有 silo 中的所有用户 histogram 构成风险
 ##### Crypto
 
-协议使用 **multiplicative blinding** 来隐藏用户的直方图, 使服务器无法获得. 同时允许服务器计算盲化 histogram 的逆，来计算权重.
-服务器使用 **Paillier encryption** 来隐藏盲化直方图的逆, 避免 silo 知道盲化掩码.
-这样可以使得服务器和 silo 能够使用加法同态性质计算私有加权和聚合.
+协议使用 **multiplicative blinding** 来隐藏用户的直方图. 
+这样服务器可计算盲化 histogram 的逆后，来计算权重, 但仍不知用户真实的 histogram.
+服务器再使用 **Paillier** 加密盲化直方图的逆, silo 知道盲化掩码可以对应得到真实值.
 
 
 ##### Protocol
